@@ -35,14 +35,15 @@ home VARCHAR(32) COMMENT '家庭住址',
 state VARCHAR(10) COMMENT '状态',
 remarks TEXT COMMENT '备注'
 );
+
 CREATE TABLE course(
-UUID VARCHAR(32) PRIMARY KEY ,
+UUID INT PRIMARY KEY AUTO_INCREMENT ,
 course_type VARCHAR(32) COMMENT '课程类型',
 course_name VARCHAR(32) COMMENT '课程名称',
 remarks TEXT COMMENT '备注'
 );
 CREATE TABLE class_schedule_card(
-UUID VARCHAR(32) PRIMARY KEY ,
+UUID INT PRIMARY KEY AUTO_INCREMENT ,
 course_id VARCHAR(32) COMMENT '所属课程id',
 teacher_id VARCHAR(32) COMMENT '任课老师id',
 teacher_name VARCHAR(32) COMMENT '任课老师名字',
@@ -55,7 +56,7 @@ STATUS VARCHAR(32) COMMENT '状态',
 remarks TEXT COMMENT '备注'
 );
 CREATE TABLE classa(
-UUID VARCHAR(32) PRIMARY KEY ,
+UUID INT PRIMARY KEY AUTO_INCREMENT ,
 class_type VARCHAR(32) COMMENT '班级类别',
 class_name VARCHAR(32) COMMENT '班级名称',
 teacher_id VARCHAR(32) COMMENT '班主任id',
@@ -72,7 +73,7 @@ course_name VARCHAR(32) COMMENT '课程名称',
 remarks TEXT COMMENT '备注'
 );
 CREATE TABLE teacher_check(
-UUID VARCHAR(32) PRIMARY KEY ,
+UUID INT PRIMARY KEY AUTO_INCREMENT ,
 check_in_time VARCHAR(32) COMMENT '签到时间',
 check_out_time VARCHAR(32) COMMENT '签退时间',
 course_id VARCHAR(32) COMMENT '课程表id',
@@ -82,7 +83,7 @@ number_of_real VARCHAR(32) COMMENT '实到人数',
 number_of_absence VARCHAR(32) COMMENT '缺勤人数'
 );
 CREATE TABLE student_check(
-UUID VARCHAR(32) PRIMARY KEY ,
+UUID INT PRIMARY KEY AUTO_INCREMENT ,
 student_id VARCHAR(32) COMMENT '学生ID',
 student_name VARCHAR(32) COMMENT '学生姓名',
 sourse_id VARCHAR(32) COMMENT '课程表ID',
@@ -91,7 +92,7 @@ STATUS VARCHAR(32) COMMENT '考勤状态',
 remarks TEXT COMMENT '备注'
 );
 CREATE TABLE satisfaction(
-UUID VARCHAR(32) PRIMARY KEY ,
+UUID INT PRIMARY KEY AUTO_INCREMENT ,
 TIME VARCHAR(32) COMMENT '调查时间',
 content VARCHAR(32) COMMENT '调查内容',
 investigator VARCHAR(32) COMMENT '调查人',
