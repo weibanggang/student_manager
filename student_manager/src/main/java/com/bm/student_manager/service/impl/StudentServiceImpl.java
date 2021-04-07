@@ -21,7 +21,7 @@ public class StudentServiceImpl implements StudentService {
      * @return
      */
     @Override
-    public int deleteByPrimaryKey(int id) {
+    public int deleteByPrimaryKey(String id) {
         return studentMapper.deleteByPrimaryKey(id);
     }
 

@@ -36,6 +36,13 @@ public interface CourseService {
      * @return
      */
     List<Course> selectAll();
+    /**
+     * 全部查询操作
+     *
+     * @return
+     */
+    List<Course> selectPage(String courseType,String courseName);
+    int countPage(String courseType,String courseName);
 
     /**
      * 修改操作

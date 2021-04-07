@@ -23,7 +23,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @return
      */
     @Override
-    public int deleteByPrimaryKey(int id) {
+    public int deleteByPrimaryKey(String id) {
         return teacherMapper.deleteByPrimaryKey(id);
     }
 

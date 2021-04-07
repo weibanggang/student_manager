@@ -1,6 +1,7 @@
 package com.bm.student_manager.dao;
 
 import com.bm.student_manager.entity.Course;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public interface CourseMapper {
      * @return
      */
     List<Course> selectAll();
+    List<Course> selectPage(@Param("courseType") String courseType,@Param("courseName") String courseName);
+    int countPage(@Param("courseType") String courseType,@Param("courseName") String courseName);
 
     /**
      * 根据主键全部修改操作

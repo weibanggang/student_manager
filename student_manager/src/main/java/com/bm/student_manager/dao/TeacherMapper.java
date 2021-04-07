@@ -14,7 +14,7 @@ public interface TeacherMapper {
      * @param id
      * @return
      */
-    int deleteByPrimaryKey(int id);
+    int deleteByPrimaryKey(String id);
 
     /**
      * 添加操作

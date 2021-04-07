@@ -37,6 +37,7 @@ public interface ClassaService {
      */
     List<Classa> selectAll();
 
+    List<Classa> selectPage(String className,String teacherName);
     /**
      * 修改操作
      *
@@ -50,4 +51,5 @@ public interface ClassaService {
      * @return
      */
     int count();
+    int countPage(String className,String teacherName);
 }

@@ -13,7 +13,7 @@
 								班级名称
 							</Col>
 							<Col span="16">
-							<Input height="20" placeholder="班级名称模糊查询" v-model="class_name"  icon="ios-search" @on-click="changePage(1)"></Input>
+							<Input height="20" placeholder="班级名称模糊查询" v-model="className"  icon="ios-search" @on-click="changePage(1)"></Input>
 							</Col>
 						</Row>
 					</FormItem>
@@ -23,7 +23,7 @@
 								班主任姓名
 							</Col>
 							<Col span="16">
-								<Input height="20" placeholder="班主任姓名模糊查询" v-model="teacher_name"  icon="ios-search" @on-click="changePage(1)"></Input>
+								<Input height="20" placeholder="班主任姓名模糊查询" v-model="teacherName"  icon="ios-search" @on-click="changePage(1)"></Input>
 							</Col>
 						</Row>
 					</FormItem>
@@ -51,29 +51,82 @@
 		</div>
 		
 		<Modal v-model="modal14" :loading="modal14loading" scrollable :title="title" @on-ok="addok">
-			<Form ref="formValidate" :model="classa" :label-width="80">
-				<FormItem label="班级类别" prop="classType">
-					<Input v-model="classa.classType" :maxlength=18 placeholder="自动输入"></Input>
-				</FormItem>
-				<FormItem label="班级名称" prop="className">
-					<Input v-model="classa.className" :maxlength=18 placeholder="请选择班级名称"></Input>
-				</FormItem>
-				<FormItem label="班主任" prop="className">
-					<Input v-model="classa.teacherName" :maxlength=18 placeholder="请选择班主任"></Input>
-				</FormItem>
-				<FormItem label="姓名" prop="uName">
-					<Input v-model="classa.uName" :maxlength=11 placeholder="请输入姓名"></Input>
-				</FormItem>
-				<FormItem label="状态" prop="uStatus">
-					<RadioGroup v-model="classa.uStatus">
-						<Radio label="正常">正常</Radio>
-						<Radio label="冻结">冻结</Radio>
-					</RadioGroup>
-				</FormItem>
-				<FormItem label="手机号码" prop="uTel">
-					<Input v-model="classa.uTel" maxlength="11"></Input>
+			<Form ref="forms" :model="classa" :rules="rule" :label-width="80">
+				<Row>
+					<FormItem label="班级类别" prop="classType">
+						<Input v-model="classa.classType" :maxlength=18 placeholder="自动输入"></Input>
+					</FormItem>
+					<FormItem label="班级名称" prop="className">
+						<Input v-model="classa.className" :maxlength=18 placeholder="请选择班级名称"></Input>
+					</FormItem>
+					<FormItem label="班主任" prop="className">
+						<Input v-model="classa.teacherName" :maxlength=18 placeholder="请选择班主任"></Input>
+					</FormItem>
+				</Row>
+				<Row>
+					<Col span="12">
+						<FormItem label="入职时间" prop="political">
+							<DatePicker type="date" format="yyyy-MM-dd" @on-change="teacher.political=$event"
+										:value="teacher.political" placeholder="请选择入职时间"
+										style="width: 100%"></DatePicker>
+						</FormItem>
+					</Col>
+
+					<Col span="12">
+						<FormItem label="出生日期" prop="birthday">
+							<DatePicker type="date" format="yyyy-MM-dd" :value="teacher.birthday"
+										@on-change="teacher.birthday=$event" placeholder="请选择出生日期"
+										style="width: 100%"></DatePicker>
+						</FormItem>
+					</Col>
+
+					<Col span="12">
+						<FormItem label="学历" prop="education">
+							<Select v-model="teacher.education" placeholder="请选择学历">
+								<Option v-for="item in educationList" :value="item" :key="item">{{ item}}</Option>
+							</Select>
+						</FormItem>
+					</Col>
+
+
+					<Col span="12">
+						<FormItem label="状态" prop="state">
+							<RadioGroup v-model="teacher.state">
+								<Radio label="在职">在职</Radio>
+								<Radio label="离职">离职</Radio>
+							</RadioGroup>
+						</FormItem>
+					</Col>
+					<Col span="12">
+						<FormItem label="手机号码" prop="phone">
+							<Input v-model="teacher.phone" maxlength="11" placeholder="请输入手机号码"></Input>
+						</FormItem>
+					</Col>
+
+					<Col span="12">
+						<FormItem label="职位" prop="position">
+							<RadioGroup v-model="teacher.position">
+								<Radio label="主管">主管</Radio>
+								<Radio label="班主任">班主任</Radio>
+								<Radio label="任课老师">任课老师</Radio>
+							</RadioGroup>
+						</FormItem>
+					</Col>
+				</Row>
+				<Row>
+
+					<Col span="12">
+						<FormItem label="家庭住址" prop="home">
+							<Input v-model="teacher.home" maxlength="100" placeholder="请输入家庭住址"></Input>
+						</FormItem>
+					</Col>
+				</Row>
+				<FormItem label="备注" prop="remarks">
+					<Input v-model="teacher.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+						   maxlength="120"></Input>
 				</FormItem>
 			</Form>
+
 		</Modal>
 		
 	</div>
@@ -160,8 +213,8 @@
 					}
 				],
 				data6: [],
-				class_name:"",
-				teacher_name:"",
+				className:"",
+				teacherName:"",
 				classa: {
 					uuid: "",
 					classType: '',
@@ -179,6 +232,29 @@
 					courseName: "",
 					remarks: ""
 				},
+				rule: {
+					name: [
+						{required: true, message: '请输入密码', trigger: 'blur'},
+					],
+					birthday: [
+						{required: true, message: '请选择出生时间', trigger: 'blur'},
+					],
+					phone: [
+						{required: true, message: '请输入手机号码', trigger: 'blur'},
+					],
+					political: [
+						{required: true, message: '请选择入职时间', trigger: 'blur'},
+					],
+					tidCard: [
+						{required: true, message: '请输入身份证', trigger: 'blur'},
+					],
+					education: [
+						{required: true, message: '请选择学历', trigger: 'blur'},
+					],
+					home: [
+						{required: true, message: '请输入地址', trigger: 'blur'},
+					]
+				}
 			}
 		},
 		methods: {
@@ -272,18 +348,18 @@
 			changePage(page) {
 
 				this.loading = true;
-				if(!this.class_name){
-					this.class_name = '';
+				if(!this.className){
+					this.className = '';
 				}
-				if(!this.teacher_name){
-					this.teacher_name='';
+				if(!this.teacherName){
+					this.teacherName='';
 				}
 				const th = this;
 				axios.get('/student_manager/classa/selectPage', {
 					params: {
 						page: page,
-						class_name: th.class_name,
-						teacher_name: th.teacher_name
+						className: th.className,
+						teacherName: th.teacherName
 					}
 				}).then(function(res) {
 					th.data6 = res.data.data;

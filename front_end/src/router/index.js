@@ -27,6 +27,10 @@ const routes = [{
             name: 'teacherInfo',
             component: () => import('../components/manager/teacher/info.vue'),
         },  {
+            path: '/teacher/course',
+            name: 'courseInfo',
+            component: () => import('../components/manager/course/info.vue'),
+        }, {
             path: '/manager/order',
             name: 'order',
             component: () => import('../components/manager/productManager/info.vue'),

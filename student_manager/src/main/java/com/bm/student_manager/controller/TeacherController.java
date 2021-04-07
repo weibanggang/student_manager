@@ -23,7 +23,7 @@ public class TeacherController {
      * @return
      */
     @GetMapping("/deleteByPrimaryKey")
-    public Result deleteByPrimaryKey(int id) {
+    public Result deleteByPrimaryKey(String id) {
         try {
 
             return teacherService.deleteByPrimaryKey(id) > 0 ? new Result().successMessage("删除成功") : Result.error("删除失败");

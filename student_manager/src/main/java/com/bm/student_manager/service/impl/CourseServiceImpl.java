@@ -57,6 +57,16 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.selectAll();
     }
 
+    @Override
+    public List<Course> selectPage(String courseType, String courseName) {
+        return courseMapper.selectPage(courseType,courseName);
+    }
+
+    @Override
+    public int countPage(String courseType, String courseName) {
+        return courseMapper.countPage(courseType,courseName);
+    }
+
     /**
      * 修改操作
      *

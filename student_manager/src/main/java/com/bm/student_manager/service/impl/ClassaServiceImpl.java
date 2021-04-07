@@ -57,6 +57,11 @@ public class ClassaServiceImpl implements ClassaService {
         return classaMapper.selectAll();
     }
 
+    @Override
+    public List<Classa> selectPage(String className, String teacherName) {
+        return classaMapper.selectPage(className,teacherName);
+    }
+
     /**
      * 修改操作
      *
@@ -75,5 +80,10 @@ public class ClassaServiceImpl implements ClassaService {
     @Override
     public int count() {
         return classaMapper.count();
+    }
+
+    @Override
+    public int countPage(String className, String teacherName) {
+        return classaMapper.countPage(className,teacherName);
     }
 }

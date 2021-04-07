@@ -3,6 +3,17 @@
         height: 41px;
     }
 </style>
+<style lang="less">
+    .vertical-center-modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .ivu-modal {
+            top: 0;
+        }
+    }
+</style>
 <template>
     <div>
         <div class="rigtop">
@@ -54,12 +65,13 @@
             </div>
         </div>
 
-        <Modal v-model="modal14" :loading="modal14loading" scrollable :title="title" @on-ok="addok">
-            <Form ref="formValidate" :model="teacher" :label-width="80">
+        <Modal class-name="vertical-center-modal" v-model="modal14" :loading="modal14loading" width="800px" scrollable
+               :title="title" @on-ok="addok">
+            <Form ref="forms" :model="teacher" :rules="rule" :label-width="80">
                 <Row>
                     <Col span="12">
                         <FormItem label="教师工号" prop="teacherId">
-                            <Input v-model="teacher.teacherId" :maxlength=18></Input>
+                            <Input v-model="teacher.teacherId" disabled></Input>
                         </FormItem>
                     </Col>
 
@@ -72,8 +84,8 @@
                 </Row>
                 <Row>
                     <Col span="12">
-                        <FormItem label="出生日期" prop="birthday">
-                            <Input v-model="teacher.birthday" :maxlength=11 placeholder="请出生日期"></Input>
+                        <FormItem label="身份证" prop="tidCard">
+                            <Input v-model="teacher.tidCard" maxlength="18" placeholder="请输入身份证"></Input>
                         </FormItem>
                     </Col>
                     <Col span="12">
@@ -84,49 +96,44 @@
                             </RadioGroup>
                         </FormItem>
                     </Col>
-
-
-                    <Col span="12">
-                        <FormItem label="手机号码" prop="phone">
-                            <Input v-model="teacher.phone" maxlength="11"></Input>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="密码" prop="password">
-                            <Input v-model="teacher.password" type="password" maxlength="18"></Input>
-                        </FormItem>
-                    </Col>
                 </Row>
                 <Row>
                     <Col span="12">
                         <FormItem label="入职时间" prop="political">
-                            <Input v-model="teacher.political" maxlength="11"></Input>
+                            <DatePicker type="date" format="yyyy-MM-dd" @on-change="teacher.political=$event"
+                                        :value="teacher.political" placeholder="请选择入职时间"
+                                        style="width: 100%"></DatePicker>
                         </FormItem>
                     </Col>
+
                     <Col span="12">
-                        <FormItem label="身份证" prop="tidCard">
-                            <Input v-model="teacher.tidCard" maxlength="11"></Input>
+                        <FormItem label="出生日期" prop="birthday">
+                            <DatePicker type="date" format="yyyy-MM-dd" :value="teacher.birthday"
+                                        @on-change="teacher.birthday=$event" placeholder="请选择出生日期"
+                                        style="width: 100%"></DatePicker>
                         </FormItem>
                     </Col>
 
                     <Col span="12">
                         <FormItem label="学历" prop="education">
-                            <Input v-model="teacher.education" maxlength="11"></Input>
+                            <Select v-model="teacher.education" placeholder="请选择学历">
+                                <Option v-for="item in educationList" :value="item" :key="item">{{ item}}</Option>
+                            </Select>
                         </FormItem>
                     </Col>
-                    <Col span="12">
-                        <FormItem label="家庭住址" prop="home">
-                            <Input v-model="teacher.home" maxlength="11"></Input>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
+
+
                     <Col span="12">
                         <FormItem label="状态" prop="state">
                             <RadioGroup v-model="teacher.state">
                                 <Radio label="在职">在职</Radio>
                                 <Radio label="离职">离职</Radio>
                             </RadioGroup>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="手机号码" prop="phone">
+                            <Input v-model="teacher.phone" maxlength="11" placeholder="请输入手机号码"></Input>
                         </FormItem>
                     </Col>
 
@@ -140,8 +147,17 @@
                         </FormItem>
                     </Col>
                 </Row>
+                <Row>
+
+                    <Col span="12">
+                        <FormItem label="家庭住址" prop="home">
+                            <Input v-model="teacher.home" maxlength="100" placeholder="请输入家庭住址"></Input>
+                        </FormItem>
+                    </Col>
+                </Row>
                 <FormItem label="备注" prop="remarks">
-                    <Input v-model="teacher.remarks" maxlength="11"></Input>
+                    <Input v-model="teacher.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                           maxlength="120"></Input>
                 </FormItem>
             </Form>
         </Modal>
@@ -154,7 +170,7 @@
             return {
                 modal14: false,
                 loading: true,
-                modal14loading: true,
+                modal14loading: false,
                 title: '添加',
                 count: 10,
                 Columns7: [
@@ -210,7 +226,8 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.show(params.Row)
+
+                                            this.show(params.row)
                                         }
                                     }
                                 }, '编辑'),
@@ -221,7 +238,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.remove(params.Row.uId)
+                                            this.remove(params.row.teacherId)
                                         }
                                     }
                                 }, '移除')
@@ -232,21 +249,45 @@
                 data6: [],
                 teacherName: "",
                 teacherUUID: "",
+                educationList: ["专科", "本科", "硕士", "博士"],
                 teacher: {
-                    teacherId: "",
+                    teacherId: new Date().getTime(),
                     name: '',
-                    sex: '',
+                    sex: '男',
                     birthday: '',
-                    position: '',
+                    position: '主管',
                     phone: '',
                     password: "",
                     political: '',
                     tidCard: '',
                     education: "",
                     home: "",
-                    state: '',
+                    state: '在职',
                     remarks: ''
                 },
+                rule: {
+                    name: [
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                    ],
+                    birthday: [
+                        {required: true, message: '请选择出生时间', trigger: 'blur'},
+                    ],
+                    phone: [
+                        {required: true, message: '请输入手机号码', trigger: 'blur'},
+                    ],
+                    political: [
+                        {required: true, message: '请选择入职时间', trigger: 'blur'},
+                    ],
+                    tidCard: [
+                        {required: true, message: '请输入身份证', trigger: 'blur'},
+                    ],
+                    education: [
+                        {required: true, message: '请选择学历', trigger: 'blur'},
+                    ],
+                    home: [
+                        {required: true, message: '请输入地址', trigger: 'blur'},
+                    ]
+                }
             }
         },
         methods: {
@@ -254,21 +295,19 @@
             add() {
                 this.title = "新增";
                 this.teacher = {
-                    uuid: "",
-                    classType: '',
-                    className: '',
-                    teacherId: '',
-                    teacherName: '',
+                    teacherId: new Date().getTime(),
+                    name: '',
+                    sex: '男',
+                    birthday: '',
+                    position: '主管',
                     phone: '',
-                    startClassTime: "",
-                    endClassTime: '',
-                    expectNumberPeople: '',
-                    actualNumberPeople: "",
-                    planNumber: "",
-                    alreadyNumber: '',
-                    courseId: '',
-                    courseName: "",
-                    remarks: ""
+                    password: "",
+                    political: '',
+                    tidCard: '',
+                    education: "",
+                    home: "",
+                    state: '在职',
+                    remarks: ''
                 };
                 this.modal14 = true;
             },
@@ -277,36 +316,43 @@
                 this.title = '编辑'
                 this.modal14 = true;
                 this.teacher = JSON.parse(JSON.stringify(data));
+                console.log(this.teacher)
             },
             //弹出添加保存
             addok() {
-                let th = this;
-                var urls = "insert";
-                if (this.title == "编辑") {
-                    urls = "updateByPrimaryKey";
-                }
-                axios.post('/student_manager/teacher/' + urls, th.teacher, {
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8"
-                    }
-                }).then(function (res) {
-                    if (res.data.code === 200) {
-                        th.$Message.success(res.data.message);
-                        th.modal14 = false;
-                        th.changePage(1);
+                this.$refs["forms"].validate((valid) => {
+                    if (valid) {
+                        let th = this;
+                        var urls = "insert";
+                        if (this.title == "编辑") {
+                            urls = "updateByPrimaryKey";
+                        }
+                        axios.post('/student_manager/teacher/' + urls, th.teacher, {
+                            headers: {
+                                "Content-Type": "application/json;charset=utf-8"
+                            }
+                        }).then(function (res) {
+                            if (res.data.code === 200) {
+                                th.$Message.success(res.data.message);
+                                th.modal14 = false;
+                                th.changePage(1);
+                            } else {
+                                th.modal14show();
+                                th.$Message.error(res.data.message);
+                            }
+                        })
                     } else {
-                        th.modal14show();
-                        th.$Message.error(res.data.message);
+                        this.modal14show();
+                        this.$Message.error('请填写必填项!');
                     }
                 })
-
-
+                return false;
             },
             modal14show() {
                 this.modal14 = false;
-                setTimeout(() => {
+                this.$nextTick(()=>{
                     this.modal14 = true;
-                }, 0);
+                });
             },
             //删除操作
             remove(id) {

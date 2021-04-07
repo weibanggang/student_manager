@@ -155,7 +155,7 @@
                                 <Icon type="ios-book"/>
                                 课程管理
                             </template>
-                            <router-Link to="/manager/productManagerInfo">
+                            <router-Link to="/teacher/course">
                                 <MenuItem name="课程种类管理">
                                     课程种类管理
                                 </MenuItem>

@@ -1,6 +1,7 @@
 package com.bm.student_manager.dao;
 
 import com.bm.student_manager.entity.Classa;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public interface ClassaMapper {
      * @return
      */
     List<Classa> selectAll();
+    List<Classa> selectPage(@Param("className") String className,@Param("teacherName") String teacherName);
 
     /**
      * 根据主键全部修改操作
@@ -51,4 +53,5 @@ public interface ClassaMapper {
      * @return
      */
     int count();
+    int countPage(String className, String teacherName);
 }
