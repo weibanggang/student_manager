@@ -1,0 +1,26 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /student_manager
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+  resources:
+    static-locations: classpath:/static,classpath:/META-INF/resources,classpath:/templates/
+  datasource:
+    url: jdbc:mysql://192.168.203.128:5188/student_manager?useUnicode=true&characterEncoding=utf8
+    username: xoops_root
+    password: 654321
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.yantao.florist.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
