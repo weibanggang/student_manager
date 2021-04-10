@@ -1,6 +1,7 @@
 package com.bm.student_manager.dao;
 
 import com.bm.student_manager.entity.ClassScheduleCard;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public interface ClassScheduleCardMapper {
      * @return
      */
     List<ClassScheduleCard> selectAll();
+    List<ClassScheduleCard> selectPage(@Param("week") String week,@Param("courseName")  String courseName,@Param("courseType")   String courseType,@Param("teacherName")   String teacherName);
+    int countPage(@Param("week") String week,@Param("courseName")  String courseName,@Param("courseType")   String courseType,@Param("teacherName")   String teacherName);
 
     /**
      * 根据主键全部修改操作

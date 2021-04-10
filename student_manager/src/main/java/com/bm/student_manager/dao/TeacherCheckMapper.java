@@ -1,6 +1,7 @@
 package com.bm.student_manager.dao;
 
 import com.bm.student_manager.entity.TeacherCheck;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public interface TeacherCheckMapper {
      * @return
      */
     List<TeacherCheck> selectAll();
+    List<TeacherCheck> selectPage(@Param("courseNameSETime") String courseNameSETime);
+    int countPage(@Param("courseNameSETime") String courseNameSETime);
 
     /**
      * 根据主键全部修改操作

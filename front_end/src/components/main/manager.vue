@@ -65,7 +65,9 @@
                         <Menu mode="horizontal" @on-select="topfu" :accordion="true" :theme="theme" active-name="1">
                             <div class="layout-logo"
                                  style="left:0;top:0;width: 280px;;text-align: center;padding-left: 6px;">
+                                <router-Link to="/manager">
                                 <MenuItem name="首页"><h3 style="font-size: 18px;">青少年培训机构学员管理系统</h3></MenuItem>
+                                </router-Link>
                             </div>
                         </Menu>
                     </div>
@@ -134,7 +136,7 @@
                                 <Icon type="md-contacts" />
                                 信息管理
                             </template>
-                            <router-Link to="/manager/productManagerInfo">
+                            <router-Link to="/student/info">
                                 <MenuItem name="学生信息管理">
                                     学生信息管理
                                 </MenuItem>
@@ -155,12 +157,12 @@
                                 <Icon type="ios-book"/>
                                 课程管理
                             </template>
-                            <router-Link to="/teacher/course">
+                            <router-Link to="/course/info">
                                 <MenuItem name="课程种类管理">
                                     课程种类管理
                                 </MenuItem>
                             </router-Link>
-                            <router-Link to="/manager/productManagerInfo">
+                            <router-Link to="/classScheduleCard/info">
                                 <MenuItem name="课程表管理">
                                     课程表管理
                                 </MenuItem>
@@ -171,10 +173,10 @@
                                 <Icon type="ios-ribbon"/>
                                 考勤管理
                             </template>
-                            <router-Link to="/manager/vipManager">
+                            <router-Link to="/teacherCheck/info">
                                 <MenuItem name="教师考勤记录">教师考勤记录</MenuItem>
                             </router-Link>
-                            <router-Link to="/manager/vipManager">
+                            <router-Link to="/studentCheck/info">
                                 <MenuItem name="学生考勤记录">学生考勤记录</MenuItem>
                             </router-Link>
                         </Submenu>
@@ -183,7 +185,7 @@
                                 <Icon type="ios-settings" />
                                 其他管理
                             </template>
-                            <router-Link to="/manager/vipManager">
+                            <router-Link to="/satisfaction/info">
                                 <MenuItem name="满意度调查">满意度调查</MenuItem>
                             </router-Link>
                         </Submenu>

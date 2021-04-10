@@ -57,6 +57,16 @@ public class SatisfactionServiceImpl implements SatisfactionService {
         return satisfactionMapper.selectAll();
     }
 
+    @Override
+    public List<Satisfaction> selectPage(String investigator, String surveySatisfaction) {
+        return satisfactionMapper.selectPage(investigator,surveySatisfaction);
+    }
+
+    @Override
+    public int countPage(String investigator, String surveySatisfaction) {
+        return satisfactionMapper.countPage(investigator,surveySatisfaction);
+    }
+
     /**
      * 修改操作
      *

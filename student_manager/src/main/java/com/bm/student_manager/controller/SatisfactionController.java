@@ -108,14 +108,14 @@ public class SatisfactionController {
      * @return
      */
     @GetMapping("/selectPage")
-    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
+    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,String investigator,String surveySatisfaction) {
         try {
             PageHelper.startPage(page, limit);
-            List<Satisfaction> list = satisfactionService.selectAll();
+            List<Satisfaction> list = satisfactionService.selectPage(investigator,surveySatisfaction);
             if (list == null) {
                 return new Result().successMessage("无数据");
             } else {
-                return new Result(200, "ok", list, satisfactionService.count());
+                return new Result(200, "ok", list, satisfactionService.countPage(investigator,surveySatisfaction));
             }
         } catch (Exception ex) {
             return new Result().error(ex.getMessage());

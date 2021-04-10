@@ -57,6 +57,16 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.selectAll();
     }
 
+    @Override
+    public List<Student> selectPage(String name, String studentId) {
+        return studentMapper.selectPage(name,studentId);
+    }
+
+    @Override
+    public int countPage(String name, String studentId) {
+        return studentMapper.countPage(name,studentId);
+    }
+
     /**
      * 修改操作
      *

@@ -69,4 +69,28 @@
       select count(1)
     from student_check
     </select>
+    <select id="selectPage" resultMap="BaseResultMap">
+       select UUID, student_id, student_name, sourse_id, course_name_s_e_time, STATUS, remarks
+    from student_check
+      <where>
+        <if test="courseNameSETime != null">
+          course_name_s_e_time like concat('%',#{courseNameSETime},'%')
+        </if>
+        <if test="status != null">
+          and status like concat('%',#{status},'%')
+        </if>
+      </where>
+    </select>
+  <select id="countPage" resultType="java.lang.Integer">
+       select count(1)
+    from student_check
+    <where>
+      <if test="courseNameSETime != null">
+        course_name_s_e_time like concat('%',#{courseNameSETime},'%')
+      </if>
+      <if test="status != null">
+        and status like concat('%',#{status},'%')
+      </if>
+    </where>
+  </select>
 </mapper>

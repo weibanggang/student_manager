@@ -57,6 +57,16 @@ public class TeacherCheckServiceImpl implements TeacherCheckService {
         return teacherCheckMapper.selectAll();
     }
 
+    @Override
+    public List<TeacherCheck> selectPage(String courseNameSETime) {
+        return teacherCheckMapper.selectPage(courseNameSETime);
+    }
+
+    @Override
+    public int countPage(String courseNameSETime) {
+        return teacherCheckMapper.countPage(courseNameSETime);
+    }
+
     /**
      * 修改操作
      *

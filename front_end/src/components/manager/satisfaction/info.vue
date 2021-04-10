@@ -17,26 +17,30 @@
 <template>
     <div>
         <div class="rigtop">
-            <Form ref="teacher" inline>
+            <Form ref="satisfaction" inline>
                 <FormItem>
                     <Row>
                         <Col span="8" style="text-align: center;">
-                            教师姓名
+                            调查人
                         </Col>
                         <Col span="16">
-                            <Input height="20" placeholder="教师姓名模糊查询" v-model="teacherName" icon="ios-search"
+                            <Input height="20" placeholder="调查人模糊查询" v-model="investigator" icon="ios-search"
                                    @on-click="changePage(1)"></Input>
                         </Col>
                     </Row>
                 </FormItem>
-                <FormItem>
+                <FormItem style="width: 400px">
                     <Row>
                         <Col span="8" style="text-align: center;">
-                            教师工号
+                            调查满意度
                         </Col>
                         <Col span="16">
-                            <Input height="20" placeholder="教师工号模糊查询" v-model="teacherUUID" icon="ios-search"
-                                   @on-click="changePage(1)"></Input>
+                            <RadioGroup v-model="surveySatisfaction" @on-change="changePage(1)">
+                                <Radio label="">全部</Radio>
+                                <Radio label="非常满意">非常满意</Radio>
+                                <Radio label="一般">一般</Radio>
+                                <Radio label="不满意">不满意</Radio>
+                            </RadioGroup>
                         </Col>
                     </Row>
                 </FormItem>
@@ -67,98 +71,42 @@
 
         <Modal class-name="vertical-center-modal" v-model="modal14" :loading="modal14loading" width="800px" scrollable
                :title="title" @on-ok="addok">
-            <Form ref="forms" :model="teacher" :rules="rule" :label-width="80">
+            <Form ref="forms" :model="satisfaction" :rules="rule" :label-width="130">
                 <Row>
                     <Col span="12">
-                        <FormItem label="教师工号" prop="teacherId">
-                            <Input v-model="teacher.teacherId" disabled></Input>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="姓名" prop="name">
-                            <Input v-model="teacher.name" :maxlength=18 placeholder="请输入名字"></Input>
-                        </FormItem>
-                    </Col>
-
-                </Row>
-                <Row>
-                    <Col span="12">
-                        <FormItem label="身份证" prop="tidCard">
-                            <Input v-model="teacher.tidCard" maxlength="18" placeholder="请输入身份证"></Input>
+                        <FormItem label="调查人" prop="investigator">
+                            <Input v-model="satisfaction.investigator" maxlength="100" placeholder="请输入调查人"></Input>
                         </FormItem>
                     </Col>
                     <Col span="12">
-                        <FormItem label="性别" prop="sex">
-                            <RadioGroup v-model="teacher.sex">
-                                <Radio label="男">男</Radio>
-                                <Radio label="女">女</Radio>
-                            </RadioGroup>
+                        <FormItem label="被调查人" prop="respondents">
+                            <Input v-model="satisfaction.respondents" maxlength="100" placeholder="请输入被调查人"></Input>
                         </FormItem>
                     </Col>
-                </Row>
-                <Row>
                     <Col span="12">
-                        <FormItem label="入职时间" prop="political">
-                            <DatePicker type="date" format="yyyy-MM-dd" @on-change="teacher.political=$event"
-                                        :value="teacher.political" placeholder="请选择入职时间"
+                        <FormItem label="调查时间" prop="time">
+                            <DatePicker type="date" format="yyyy-MM-dd" @on-change="satisfaction.time=$event"
+                                        :value="satisfaction.time" placeholder="请选择调查时间"
                                         style="width: 100%"></DatePicker>
                         </FormItem>
                     </Col>
-
                     <Col span="12">
-                        <FormItem label="出生日期" prop="birthday">
-                            <DatePicker type="date" format="yyyy-MM-dd" :value="teacher.birthday"
-                                        @on-change="teacher.birthday=$event" placeholder="请选择出生日期"
-                                        style="width: 100%"></DatePicker>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="学历" prop="education">
-                            <Select v-model="teacher.education" placeholder="请选择学历">
-                                <Option v-for="item in educationList" :value="item" :key="item">{{ item}}</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-
-
-                    <Col span="12">
-                        <FormItem label="状态" prop="state">
-                            <RadioGroup v-model="teacher.state">
-                                <Radio label="在职">在职</Radio>
-                                <Radio label="离职">离职</Radio>
-                            </RadioGroup>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="手机号码" prop="phone">
-                            <Input v-model="teacher.phone" maxlength="11" placeholder="请输入手机号码"></Input>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="职位" prop="position">
-                            <RadioGroup v-model="teacher.position">
-                                <Radio label="主管">主管</Radio>
-                                <Radio label="班主任">班主任</Radio>
-                                <Radio label="任课老师">任课老师</Radio>
-                               <!-- <Radio label="招生老师">招生老师</Radio>-->
+                        <FormItem label="调查满意度" prop="surveySatisfaction">
+                            <RadioGroup v-model="satisfaction.surveySatisfaction">
+                                <Radio label="非常满意">非常满意</Radio>
+                                <Radio label="一般">一般</Radio>
+                                <Radio label="不满意">不满意</Radio>
                             </RadioGroup>
                         </FormItem>
                     </Col>
                 </Row>
-                <Row>
-
-                    <Col span="12">
-                        <FormItem label="家庭住址" prop="home">
-                            <Input v-model="teacher.home" maxlength="100" placeholder="请输入家庭住址"></Input>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <FormItem label="备注" prop="remarks">
-                    <Input v-model="teacher.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                           maxlength="120"></Input>
+                <FormItem label="调查内容" prop="content">
+                    <Input v-model="satisfaction.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                           maxlength="120" placeholder="请输入调查内容"></Input>
+                </FormItem>
+                <FormItem label="学生情况" prop="remarks">
+                    <Input v-model="satisfaction.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                           maxlength="120" placeholder="请输入学生情况"></Input>
                 </FormItem>
             </Form>
         </Modal>
@@ -175,39 +123,35 @@
                 title: '添加',
                 count: 10,
                 Columns7: [
+
                     {
-                        title: '工号',
-                        key: 'teacherId',
-                        align: 'center',
-                        width: 100
-                    }, {
-                        title: '姓名',
-                        key: 'name',
+                        title: '调查时间',
+                        key: 'time',
                         align: 'center',
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
+                        title: '调查人',
+                        key: 'investigator',
                         align: 'center',
                     },
                     {
-                        title: '手机号码',
-                        key: 'phone',
-                        align: 'center'
-                    },
-                    {
-                        title: '状态',
-                        key: 'state',
+                        title: '被调查人',
+                        key: 'respondents',
                         align: 'center',
                     },
                     {
-                        title: '职位',
-                        key: 'position',
+                        title: '满意度',
+                        key: 'surveySatisfaction',
                         align: 'center',
                     },
                     {
-                        title: '入职时间',
-                        key: 'political',
+                        title: '调查内容',
+                        key: 'content',
+                        align: 'center',
+                    },
+                    {
+                        title: '学生情况',
+                        key: 'remarks',
                         align: 'center',
                     },
                     {
@@ -239,7 +183,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.remove(params.row.teacherId)
+                                            this.remove(params.row.uuid)
                                         }
                                     }
                                 }, '移除')
@@ -248,45 +192,32 @@
                     }
                 ],
                 data6: [],
-                teacherName: "",
-                teacherUUID: "",
-                educationList: ["专科", "本科", "硕士", "博士"],
-                teacher: {
-                    teacherId: new Date().getTime(),
-                    name: '',
-                    sex: '男',
-                    birthday: '',
-                    position: '主管',
-                    phone: '',
-                    password: "",
-                    political: '',
-                    tidCard: '',
-                    education: "",
-                    home: "",
-                    state: '在职',
+                investigator: "",
+                surveySatisfaction: "",
+                satisfaction: {
+                    uuid: "",
+                    surveySatisfaction: "",
+                    time: "",
+                    content: "",
+                    investigator: "",
+                    respondents: "",
                     remarks: ''
                 },
                 rule: {
-                    name: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
+                    time: [
+                        {required: true, message: '请输入调查时间', trigger: 'blur'},
                     ],
-                    birthday: [
-                        {required: true, message: '请选择出生时间', trigger: 'blur'},
+                    content: [
+                        {required: true, message: '请输入调查内容', trigger: 'blur'},
                     ],
-                    phone: [
-                        {required: true, message: '请输入手机号码', trigger: 'blur'},
+                    investigator: [
+                        {required: true, message: '请输入调查人', trigger: 'blur'},
                     ],
-                    political: [
-                        {required: true, message: '请选择入职时间', trigger: 'blur'},
+                    respondents: [
+                        {required: true, message: '请输入被调查人', trigger: 'blur'},
                     ],
-                    tidCard: [
-                        {required: true, message: '请输入身份证', trigger: 'blur'},
-                    ],
-                    education: [
-                        {required: true, message: '请选择学历', trigger: 'blur'},
-                    ],
-                    home: [
-                        {required: true, message: '请输入地址', trigger: 'blur'},
+                    remarks: [
+                        {required: true, message: '请输入学生情况', trigger: 'blur'},
                     ]
                 }
             }
@@ -295,20 +226,12 @@
             //单击添加
             add() {
                 this.title = "新增";
-                this.teacher = {
-                    teacherId: new Date().getTime(),
-                    name: '',
-                    sex: '男',
-                    birthday: '',
-                    position: '主管',
-                    phone: '',
-                    password: "",
-                    political: '',
-                    tidCard: '',
-                    education: "",
-                    home: "",
-                    state: '在职',
-                    remarks: ''
+                this.satisfaction = {
+                    surveySatisfaction: "非常满意",
+                    time: "",
+                    content: "",
+                    investigator: "",
+                    respondents: "",
                 };
                 this.modal14 = true;
             },
@@ -316,8 +239,7 @@
             show(data) {
                 this.title = '编辑'
                 this.modal14 = true;
-                this.teacher = JSON.parse(JSON.stringify(data));
-                console.log(this.teacher)
+                this.satisfaction = JSON.parse(JSON.stringify(data));
             },
             //弹出添加保存
             addok() {
@@ -328,7 +250,7 @@
                         if (this.title == "编辑") {
                             urls = "updateByPrimaryKey";
                         }
-                        axios.post('/student_manager/teacher/' + urls, th.teacher, {
+                        axios.post('/student_manager/satisfaction/' + urls, th.satisfaction, {
                             headers: {
                                 "Content-Type": "application/json;charset=utf-8"
                             }
@@ -347,7 +269,6 @@
                         this.$Message.error('请填写必填项!');
                     }
                 })
-                return false;
             },
             modal14show() {
                 this.modal14 = false;
@@ -362,12 +283,11 @@
                     content: '<p>移除后不可恢复，确定继续？</p>',
                     onOk: () => {
                         const th = this;
-                        axios.get('/student_manager/teacher/deleteByPrimaryKey', {
+                        axios.get('/student_manager/satisfaction/deleteByPrimaryKey', {
                             params: {
                                 id: id
                             }
                         }).then(function (res) {
-                            console.log(res)
                             if (res.data.code === 200) {
                                 th.$Message.success(res.data.message);
                                 th.changePage(1);
@@ -381,24 +301,24 @@
             //导出数据
             exportData() {
                 this.$refs.table.exportCsv({
-                    filename: '教师信息'
+                    filename: '调查满意度'
                 });
             },
             changePage(page) {
 
                 this.loading = true;
-                if (!this.teacherName) {
-                    this.teacherName = '';
+                if (!this.investigator) {
+                    this.investigator = '';
                 }
-                if (!this.teacher_name) {
-                    this.teacher_name = '';
+                if (!this.surveySatisfaction) {
+                    this.surveySatisfaction = '';
                 }
                 const th = this;
-                axios.get('/student_manager/teacher/selectPage', {
+                axios.get('/student_manager/satisfaction/selectPage', {
                     params: {
                         page: page,
-                        teacherName: th.teacherName,
-                        teacherUUID: th.teacherUUID
+                        investigator: th.investigator,
+                        surveySatisfaction: th.surveySatisfaction
                     }
                 }).then(function (res) {
                     th.data6 = res.data.data;

@@ -36,7 +36,8 @@ public interface StudentCheckService {
      * @return
      */
     List<StudentCheck> selectAll();
-
+    List<StudentCheck> selectPage(String courseNameSETime,String status);
+    int countPage(String courseNameSETime,String status);
     /**
      * 修改操作
      *

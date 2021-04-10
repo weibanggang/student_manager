@@ -36,6 +36,8 @@ public interface ClassScheduleCardService {
      * @return
      */
     List<ClassScheduleCard> selectAll();
+    List<ClassScheduleCard> selectPage(String week,String courseName ,String courseType, String teacherName);
+    int countPage(String week,String courseName,String courseType, String teacherName);
 
     /**
      * 修改操作

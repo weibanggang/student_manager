@@ -57,6 +57,16 @@ public class StudentCheckServiceImpl implements StudentCheckService {
         return studentCheckMapper.selectAll();
     }
 
+    @Override
+    public List<StudentCheck> selectPage(String courseNameSETime, String status) {
+        return studentCheckMapper.selectPage(courseNameSETime,status);
+    }
+
+    @Override
+    public int countPage(String courseNameSETime, String status) {
+        return studentCheckMapper.countPage(courseNameSETime,status);
+    }
+
     /**
      * 修改操作
      *

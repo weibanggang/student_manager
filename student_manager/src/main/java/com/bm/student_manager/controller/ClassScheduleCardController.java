@@ -108,14 +108,14 @@ public class ClassScheduleCardController {
      * @return
      */
     @GetMapping("/selectPage")
-    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
+    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,String week, String courseName, String courseType, String teacherName) {
         try {
             PageHelper.startPage(page, limit);
-            List<ClassScheduleCard> list = classScheduleCardService.selectAll();
+            List<ClassScheduleCard> list = classScheduleCardService.selectPage(week,courseName,courseType,teacherName);
             if (list == null) {
                 return new Result().successMessage("无数据");
             } else {
-                return new Result(200, "ok", list, classScheduleCardService.count());
+                return new Result(200, "ok", list, classScheduleCardService.countPage(week,courseName,courseType,teacherName));
             }
         } catch (Exception ex) {
             return new Result().error(ex.getMessage());

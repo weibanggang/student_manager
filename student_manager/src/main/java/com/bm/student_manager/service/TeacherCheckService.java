@@ -36,7 +36,8 @@ public interface TeacherCheckService {
      * @return
      */
     List<TeacherCheck> selectAll();
-
+    List<TeacherCheck> selectPage(String courseNameSETime);
+    int countPage(String courseNameSETime);
     /**
      * 修改操作
      *

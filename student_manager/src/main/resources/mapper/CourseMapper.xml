@@ -65,11 +65,11 @@
       select UUID, course_type, course_name, remarks
       from course
       <where>
-        <if test="courseType != null and courseName != '' ">
-          NAME like concat('%',#{courseType},'%')
+        <if test="courseType != null and courseType != '' ">
+          course_type like concat('%',#{courseType},'%')
         </if>
         <if test="courseName != null and courseName != '' ">
-          and teacher_id like concat('%',#{courseName},'%')
+          and course_name like concat('%',#{courseName},'%')
         </if>
       </where>
     </select>
@@ -77,11 +77,11 @@
     select count(1)
     from course
     <where>
-      <if test="courseType != null and courseName != '' ">
-        NAME like concat('%',#{courseType},'%')
+      <if test="courseType != null and courseType != '' ">
+        course_type like concat('%',#{courseType},'%')
       </if>
       <if test="courseName != null and courseName != '' ">
-        and teacher_id like concat('%',#{courseName},'%')
+        and course_name like concat('%',#{courseName},'%')
       </if>
     </where>
   </select>

@@ -37,6 +37,8 @@ public interface StudentCheckMapper {
      * @return
      */
     List<StudentCheck> selectAll();
+    List<StudentCheck> selectPage(String courseNameSETime,String status);
+    int countPage(String courseNameSETime,String status);
 
     /**
      * 根据主键全部修改操作

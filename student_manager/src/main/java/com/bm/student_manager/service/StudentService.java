@@ -36,7 +36,8 @@ public interface StudentService {
      * @return
      */
     List<Student> selectAll();
-
+    List<Student> selectPage(String name,String studentId);
+    int countPage(String name,String studentId);
     /**
      * 修改操作
      *

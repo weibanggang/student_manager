@@ -17,14 +17,14 @@
 <template>
     <div>
         <div class="rigtop">
-            <Form ref="teacher" inline>
+            <Form ref="classScheduleCard" inline>
                 <FormItem>
                     <Row>
                         <Col span="8" style="text-align: center;">
-                            教师姓名
+                            课程名称
                         </Col>
                         <Col span="16">
-                            <Input height="20" placeholder="教师姓名模糊查询" v-model="teacherName" icon="ios-search"
+                            <Input height="20" placeholder="课程名称模糊查询" v-model="className" icon="ios-search"
                                    @on-click="changePage(1)"></Input>
                         </Col>
                     </Row>
@@ -32,11 +32,15 @@
                 <FormItem>
                     <Row>
                         <Col span="8" style="text-align: center;">
-                            教师工号
+                            星期
                         </Col>
                         <Col span="16">
-                            <Input height="20" placeholder="教师工号模糊查询" v-model="teacherUUID" icon="ios-search"
-                                   @on-click="changePage(1)"></Input>
+                            <Select v-model="week" placeholder="星期" filterable clearable
+                                    @on-change="changePage(1)">
+                                <Option v-for="item in weeks" :value="item" :key="item">{{
+                                    item}}
+                                </Option>
+                            </Select>
                         </Col>
                     </Row>
                 </FormItem>
@@ -67,97 +71,61 @@
 
         <Modal class-name="vertical-center-modal" v-model="modal14" :loading="modal14loading" width="800px" scrollable
                :title="title" @on-ok="addok">
-            <Form ref="forms" :model="teacher" :rules="rule" :label-width="80">
+            <Form ref="forms" :model="classScheduleCard" :rules="rule" :label-width="80">
                 <Row>
                     <Col span="12">
-                        <FormItem label="教师工号" prop="teacherId">
-                            <Input v-model="teacher.teacherId" disabled></Input>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="姓名" prop="name">
-                            <Input v-model="teacher.name" :maxlength=18 placeholder="请输入名字"></Input>
-                        </FormItem>
-                    </Col>
-
-                </Row>
-                <Row>
-                    <Col span="12">
-                        <FormItem label="身份证" prop="tidCard">
-                            <Input v-model="teacher.tidCard" maxlength="18" placeholder="请输入身份证"></Input>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="性别" prop="sex">
-                            <RadioGroup v-model="teacher.sex">
-                                <Radio label="男">男</Radio>
-                                <Radio label="女">女</Radio>
-                            </RadioGroup>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span="12">
-                        <FormItem label="入职时间" prop="political">
-                            <DatePicker type="date" format="yyyy-MM-dd" @on-change="teacher.political=$event"
-                                        :value="teacher.political" placeholder="请选择入职时间"
-                                        style="width: 100%"></DatePicker>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="出生日期" prop="birthday">
-                            <DatePicker type="date" format="yyyy-MM-dd" :value="teacher.birthday"
-                                        @on-change="teacher.birthday=$event" placeholder="请选择出生日期"
-                                        style="width: 100%"></DatePicker>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="学历" prop="education">
-                            <Select v-model="teacher.education" placeholder="请选择学历">
-                                <Option v-for="item in educationList" :value="item" :key="item">{{ item}}</Option>
+                        <FormItem label="课程名称" prop="courseName">
+                            <Select v-model="classScheduleCard.courseId"clearable placeholder="请选择课程名称"  filterable
+                                    @on-change="courseNameChange($event)" >
+                                <Option v-for="item in courseNameList" :value="item.uuid" :key="item.uuid">{{
+                                    item.courseName}}
+                                </Option>
                             </Select>
                         </FormItem>
                     </Col>
-
+                    <Col span="12">
+                        <FormItem label="任课老师" prop="teacherName">
+                            <Select v-model="classScheduleCard.teacherId" placeholder="请选择任课老师" filterable
+                                    @on-change="teacheChange($event)">
+                                <Option v-for="item in teacherList" :value="item.teacherId" :key="item.teacherId">{{
+                                    item.name}}
+                                </Option>
+                            </Select>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="开始时间" prop="startTime">
+                            <DatePicker type="datetime" format="yyyy-MM-dd HH:mm:ss"
+                                        :value="classScheduleCard.startTime"
+                                        @on-change="setWeek($event)" placeholder="请选择开始时间"
+                                        style="width: 100%"></DatePicker>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="结束时间" prop="endTime">
+                            <DatePicker type="datetime" format="yyyy-MM-dd HH:mm:ss" :value="classScheduleCard.endTime"
+                                        @on-change="classScheduleCard.endTime=$event" placeholder="请选择结束时间"
+                                        style="width: 100%"></DatePicker>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="星期" prop="week">
+                            <Input v-model="classScheduleCard.week" maxlength="5" disabled></Input>
+                        </FormItem>
+                    </Col>
 
                     <Col span="12">
-                        <FormItem label="状态" prop="state">
-                            <RadioGroup v-model="teacher.state">
-                                <Radio label="在职">在职</Radio>
-                                <Radio label="离职">离职</Radio>
+                        <FormItem label="状态" prop="status">
+                            <RadioGroup v-model="classScheduleCard.status">
+                                <Radio label="未上课">未上课</Radio>
+                                <Radio label="上课中">上课中</Radio>
+                                <Radio label="已上课">已上课</Radio>
                             </RadioGroup>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="手机号码" prop="phone">
-                            <Input v-model="teacher.phone" maxlength="11" placeholder="请输入手机号码"></Input>
-                        </FormItem>
-                    </Col>
-
-                    <Col span="12">
-                        <FormItem label="职位" prop="position">
-                            <RadioGroup v-model="teacher.position">
-                                <Radio label="主管">主管</Radio>
-                                <Radio label="班主任">班主任</Radio>
-                                <Radio label="任课老师">任课老师</Radio>
-                               <!-- <Radio label="招生老师">招生老师</Radio>-->
-                            </RadioGroup>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-
-                    <Col span="12">
-                        <FormItem label="家庭住址" prop="home">
-                            <Input v-model="teacher.home" maxlength="100" placeholder="请输入家庭住址"></Input>
                         </FormItem>
                     </Col>
                 </Row>
                 <FormItem label="备注" prop="remarks">
-                    <Input v-model="teacher.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                    <Input v-model="classScheduleCard.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                            maxlength="120"></Input>
                 </FormItem>
             </Form>
@@ -176,38 +144,39 @@
                 count: 10,
                 Columns7: [
                     {
-                        title: '工号',
-                        key: 'teacherId',
-                        align: 'center',
-                        width: 100
-                    }, {
-                        title: '姓名',
-                        key: 'name',
+                        title: '课程类型',
+                        key: 'courseType',
                         align: 'center',
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
+                        title: '课程名称',
+                        key: 'courseName',
+                        align: 'center',
+                    },
+
+                    {
+                        title: '任课老师',
+                        key: 'teacherName',
                         align: 'center',
                     },
                     {
-                        title: '手机号码',
-                        key: 'phone',
-                        align: 'center'
+                        title: '开始时间',
+                        key: 'startTime',
+                        align: 'center',
+                    },
+                    {
+                        title: '结束时间',
+                        key: 'endTime',
+                        align: 'center',
+                    },
+                    {
+                        title: '星期',
+                        key: 'week',
+                        align: 'center',
                     },
                     {
                         title: '状态',
-                        key: 'state',
-                        align: 'center',
-                    },
-                    {
-                        title: '职位',
-                        key: 'position',
-                        align: 'center',
-                    },
-                    {
-                        title: '入职时间',
-                        key: 'political',
+                        key: 'status',
                         align: 'center',
                     },
                     {
@@ -239,7 +208,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.remove(params.row.teacherId)
+                                            this.remove(params.row.uuid)
                                         }
                                     }
                                 }, '移除')
@@ -248,45 +217,34 @@
                     }
                 ],
                 data6: [],
-                teacherName: "",
-                teacherUUID: "",
-                educationList: ["专科", "本科", "硕士", "博士"],
-                teacher: {
-                    teacherId: new Date().getTime(),
-                    name: '',
-                    sex: '男',
-                    birthday: '',
-                    position: '主管',
-                    phone: '',
-                    password: "",
-                    political: '',
-                    tidCard: '',
-                    education: "",
-                    home: "",
-                    state: '在职',
+                className: "",
+                teacherList: [],
+                courseNameList: [],
+                week: "",
+                weeks: ["日", "一", "二", "三", "四", "五", "六"],
+                courseId: '',
+                classScheduleCard: {
+                    uuid: "",
+                    courseName: '',
+                    classType: "",
+                    className: "",
                     remarks: ''
                 },
                 rule: {
-                    name: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
+                    classType: [
+                        {required: true, message: '请选择课程类型', trigger: 'blur'},
                     ],
-                    birthday: [
-                        {required: true, message: '请选择出生时间', trigger: 'blur'},
+                    courseName: [
+                        {required: true, message: '请输入课程名称', trigger: 'blur'},
                     ],
-                    phone: [
-                        {required: true, message: '请输入手机号码', trigger: 'blur'},
+                    startTime: [
+                        {required: true, message: '请输入课程名称', trigger: 'blur'},
                     ],
-                    political: [
-                        {required: true, message: '请选择入职时间', trigger: 'blur'},
+                    endTime: [
+                        {required: true, message: '请输入课程名称', trigger: 'blur'},
                     ],
-                    tidCard: [
-                        {required: true, message: '请输入身份证', trigger: 'blur'},
-                    ],
-                    education: [
-                        {required: true, message: '请选择学历', trigger: 'blur'},
-                    ],
-                    home: [
-                        {required: true, message: '请输入地址', trigger: 'blur'},
+                    teacherName: [
+                        {required: true, message: '请选择任课老师', trigger: 'blur'},
                     ]
                 }
             }
@@ -295,19 +253,16 @@
             //单击添加
             add() {
                 this.title = "新增";
-                this.teacher = {
-                    teacherId: new Date().getTime(),
-                    name: '',
-                    sex: '男',
-                    birthday: '',
-                    position: '主管',
-                    phone: '',
-                    password: "",
-                    political: '',
-                    tidCard: '',
-                    education: "",
-                    home: "",
-                    state: '在职',
+                this.classScheduleCard = {
+                    courseName: "",
+                    courseType: "",
+                    teacherId: "",
+                    courseId: "",
+                    teacherName: "",
+                    startTime: "",
+                    endTime: "",
+                    week: "",
+                    status: "未上课",
                     remarks: ''
                 };
                 this.modal14 = true;
@@ -316,19 +271,18 @@
             show(data) {
                 this.title = '编辑'
                 this.modal14 = true;
-                this.teacher = JSON.parse(JSON.stringify(data));
-                console.log(this.teacher)
+                this.classScheduleCard = JSON.parse(JSON.stringify(data));
             },
             //弹出添加保存
             addok() {
                 this.$refs["forms"].validate((valid) => {
                     if (valid) {
                         let th = this;
-                        var urls = "insert";
+                        let urls = "insert";
                         if (this.title == "编辑") {
                             urls = "updateByPrimaryKey";
                         }
-                        axios.post('/student_manager/teacher/' + urls, th.teacher, {
+                        axios.post('/student_manager/classScheduleCard/' + urls, th.classScheduleCard, {
                             headers: {
                                 "Content-Type": "application/json;charset=utf-8"
                             }
@@ -347,11 +301,10 @@
                         this.$Message.error('请填写必填项!');
                     }
                 })
-                return false;
             },
             modal14show() {
                 this.modal14 = false;
-                this.$nextTick(()=>{
+                this.$nextTick(() => {
                     this.modal14 = true;
                 });
             },
@@ -362,12 +315,11 @@
                     content: '<p>移除后不可恢复，确定继续？</p>',
                     onOk: () => {
                         const th = this;
-                        axios.get('/student_manager/teacher/deleteByPrimaryKey', {
+                        axios.get('/student_manager/classScheduleCard/deleteByPrimaryKey', {
                             params: {
                                 id: id
                             }
                         }).then(function (res) {
-                            console.log(res)
                             if (res.data.code === 200) {
                                 th.$Message.success(res.data.message);
                                 th.changePage(1);
@@ -381,24 +333,24 @@
             //导出数据
             exportData() {
                 this.$refs.table.exportCsv({
-                    filename: '教师信息'
+                    filename: '课程表信息'
                 });
             },
             changePage(page) {
 
                 this.loading = true;
-                if (!this.teacherName) {
-                    this.teacherName = '';
+                if (!this.week) {
+                    this.week = '';
                 }
-                if (!this.teacher_name) {
-                    this.teacher_name = '';
+                if (!this.className) {
+                    this.className = '';
                 }
                 const th = this;
-                axios.get('/student_manager/teacher/selectPage', {
+                axios.get('/student_manager/classScheduleCard/selectPage', {
                     params: {
                         page: page,
-                        teacherName: th.teacherName,
-                        teacherUUID: th.teacherUUID
+                        week: th.week,
+                        className: th.className
                     }
                 }).then(function (res) {
                     th.data6 = res.data.data;
@@ -406,9 +358,54 @@
                 })
                 th.loading = false;
             },
+            courseNameChange(value) {
+                this.courseNameList.forEach((res) => {
+                    if (res.uuid === value) {
+                        this.classScheduleCard.courseId = res.uuid;
+                        this.classScheduleCard.courseName = res.courseName;
+                        this.classScheduleCard.courseType = res.courseType;
+                    }
+                })
+
+            },
+            teacheChange(value) {
+                this.teacherList.forEach((res) => {
+                    if (res.teacherId === value) {
+                        this.classScheduleCard.teacherId = res.teacherId;
+                        this.classScheduleCard.teacherName = res.name;
+                    }
+                })
+
+            },
+            getWeekDay(date) {
+                let weekArray = new Array("日", "一", "二", "三", "四", "五", "六");
+                let week = weekArray[new Date(date).getDay()];//注意此处必须是先new一个Date
+                return week;
+            },
+            timestampToTime(timestamp) {
+                let date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                let Y = date.getFullYear() + '-';
+                let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                let D = date.getDate() + ' ';
+                let h = date.getHours() + ':';
+                let m = date.getMinutes() + ':';
+                let s = date.getSeconds();
+                return Y + M + D + h + m + s;
+            },
+            setWeek(event) {
+                this.classScheduleCard.startTime = event;
+                this.classScheduleCard.week = this.getWeekDay(event);
+                this.classScheduleCard.endTime =this.timestampToTime(new Date(event).getTime() + 2 * 60 * 60 * 1000);
+            }
         },
         created() {
             this.changePage(1);
+            axios.get('/student_manager/teacher/selectAll').then((res) => {
+                this.teacherList = res.data.data;
+            })
+            axios.get('/student_manager/course/selectAll').then((res) => {
+                this.courseNameList = res.data.data;
+            })
         }
     }
 </script>

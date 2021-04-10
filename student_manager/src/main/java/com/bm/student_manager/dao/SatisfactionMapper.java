@@ -1,6 +1,7 @@
 package com.bm.student_manager.dao;
 
 import com.bm.student_manager.entity.Satisfaction;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public interface SatisfactionMapper {
      * @return
      */
     List<Satisfaction> selectAll();
+    List<Satisfaction> selectPage(@Param("investigator") String investigator,@Param("surveySatisfaction") String surveySatisfaction);
+    int countPage(@Param("investigator") String investigator,@Param("surveySatisfaction") String surveySatisfaction);
 
     /**
      * 根据主键全部修改操作

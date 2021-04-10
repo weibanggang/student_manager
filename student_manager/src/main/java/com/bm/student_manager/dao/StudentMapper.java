@@ -1,6 +1,7 @@
 package com.bm.student_manager.dao;
 
 import com.bm.student_manager.entity.Student;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public interface StudentMapper {
      * @return
      */
     List<Student> selectAll();
+    List<Student> selectPage(@Param("name") String name,@Param("studentId")  String studentId);
+    int countPage(@Param("name") String name,@Param("studentId")  String studentId);
 
     /**
      * 根据主键全部修改操作

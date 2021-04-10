@@ -27,18 +27,30 @@ const routes = [{
             name: 'teacherInfo',
             component: () => import('../components/manager/teacher/info.vue'),
         },  {
-            path: '/teacher/course',
+            path: '/course/info',
             name: 'courseInfo',
             component: () => import('../components/manager/course/info.vue'),
         }, {
-            path: '/manager/order',
-            name: 'order',
-            component: () => import('../components/manager/productManager/info.vue'),
+            path: '/student/info',
+            name: 'studentInfo',
+            component: () => import('../components/manager/student/info.vue'),
         },{
-            path: '/manager/vipManager',
-            name: 'vipManagerInfo',
-            component: () => import('../components/manager/vipManager/info.vue'),
+            path: '/satisfaction/info',
+            name: 'satisfactionInfo',
+            component: () => import('../components/manager/satisfaction/info.vue'),
         }, {
+            path: '/classScheduleCard/info',
+            name: 'classScheduleCardInfo',
+            component: () => import('../components/manager/classScheduleCard/info.vue'),
+        },{
+            path: '/teacherCheck/info',
+            name: 'teacherCheckInfo',
+            component: () => import('../components/manager/teacherCheck/info.vue'),
+        },{
+            path: '/studentCheck/info',
+            name: 'studentCheckInfo',
+            component: () => import('../components/manager/studentCheck/info.vue'),
+        },{
             path: '/manager/info',
             name: 'managerInfo',
             component: () => import('../components/manager/manager/info.vue'),
@@ -47,18 +59,10 @@ const routes = [{
     },
     /*----------------------------------------------------------------*/
     {
-        path: '/vip',
-        name: 'vip',
-        component: () => import('../components/main/vip.vue'),
-        children: [{
-            path: '/',
-            name: '',
-            component: () => import('../components/index/vip.vue'),
-        }, {
-            path: '/vip/gwcs',
-            name: 'gwcs',
-            component: () => import('../components/vip/gwcs.vue'),
-        }]
+        path: '/classScheduleCard',
+        name: 'classScheduleCard',
+        component: () => import('../components/index/index.vue')
+
     }
 
 ]

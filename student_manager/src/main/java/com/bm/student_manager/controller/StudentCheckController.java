@@ -108,14 +108,14 @@ public class StudentCheckController {
      * @return
      */
     @GetMapping("/selectPage")
-    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit) {
+    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,String courseNameSETime,String status) {
         try {
             PageHelper.startPage(page, limit);
-            List<StudentCheck> list = studentCheckService.selectAll();
+            List<StudentCheck> list = studentCheckService.selectPage(courseNameSETime,status);
             if (list == null) {
                 return new Result().successMessage("无数据");
             } else {
-                return new Result(200, "ok", list, studentCheckService.count());
+                return new Result(200, "ok", list, studentCheckService.countPage(courseNameSETime,status));
             }
         } catch (Exception ex) {
             return new Result().error(ex.getMessage());

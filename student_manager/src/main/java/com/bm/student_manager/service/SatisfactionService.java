@@ -36,7 +36,8 @@ public interface SatisfactionService {
      * @return
      */
     List<Satisfaction> selectAll();
-
+    List<Satisfaction> selectPage(String investigator,String surveySatisfaction);
+    int countPage(String investigator,String surveySatisfaction);
     /**
      * 修改操作
      *

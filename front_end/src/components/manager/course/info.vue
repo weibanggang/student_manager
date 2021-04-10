@@ -220,7 +220,6 @@
                         this.$Message.error('请填写必填项!');
                     }
                 })
-                return false;
             },
             modal14show() {
                 this.modal14 = false;
@@ -253,7 +252,7 @@
             //导出数据
             exportData() {
                 this.$refs.table.exportCsv({
-                    filename: '管理员信息'
+                    filename: '课程信息'
                 });
             },
             changePage(page) {
