@@ -186,7 +186,7 @@
 						title: '学号',
 						key: 'studentId',
 						align: 'center',
-						width: 100
+						width: 200
 					}, {
 						title: '姓名',
 						key: 'name',

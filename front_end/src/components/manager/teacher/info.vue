@@ -179,7 +179,7 @@
                         title: '工号',
                         key: 'teacherId',
                         align: 'center',
-                        width: 100
+                        width: 200
                     }, {
                         title: '姓名',
                         key: 'name',

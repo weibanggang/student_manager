@@ -34,12 +34,6 @@
                 </FormItem>
 
                 <FormItem style="position: absolute;right: 30px">
-                    <FormItem>
-                        <Button @click="add()">
-                            <Icon type="ios-add-circle-outline"/>
-                            添加记录
-                        </Button>
-                    </FormItem>
                     <Button @click="exportData()">
                         <Icon type="ios-download-outline"/>
                         数据导出
@@ -75,7 +69,7 @@
                         title: '课程/时间',
                         key: 'courseNameSETime',
                         align: 'center',
-                        width: 100
+                        width: 300
                     }, {
                         title: '学生姓名',
                         key: 'studentName',
