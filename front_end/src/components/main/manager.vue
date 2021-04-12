@@ -147,7 +147,7 @@
                                 </MenuItem>
                             </router-Link>
                             <router-Link to="/classa/info">
-                                <MenuItem name="班级信息管理">
+                                <MenuItem name="班级信息管理" v-if="obj.position != '任课老师'">
                                     班级信息管理
                                 </MenuItem>
                             </router-Link>
@@ -158,11 +158,11 @@
                                 课程管理
                             </template>
                             <router-Link to="/course/info">
-                                <MenuItem name="课程种类管理">
+                                <MenuItem name="课程种类管理" v-if="obj.position == '主管'">
                                     课程种类管理
                                 </MenuItem>
                             </router-Link>
-                            <router-Link to="/classScheduleCard/info">
+                            <router-Link to="/classScheduleCard/info" >
                                 <MenuItem name="课程表管理">
                                     课程表管理
                                 </MenuItem>
@@ -173,13 +173,13 @@
                                 <Icon type="ios-ribbon"/>
                                 考勤管理
                             </template>
-                            <router-Link to="/teacherCheck/info">
+                            <router-Link to="/teacherCheck/info"  >
                                 <MenuItem name="教师考勤记录">教师考勤记录</MenuItem>
                             </router-Link>
                             <router-Link to="/studentCheck/info">
                                 <MenuItem name="学生考勤记录">学生考勤记录</MenuItem>
                             </router-Link>
-                            <router-Link to="/check/info">
+                            <router-Link to="/check/info" >
                                 <MenuItem name="上课签到">上课签到</MenuItem>
                             </router-Link>
                         </Submenu>
@@ -226,6 +226,9 @@
                 parentTag: "控制台",
                 modal13: false,
                 childTag: "",
+                obj:{
+                    position:"班主任"
+                },
                 user: {
                     password: "",
                     passwords: "",
@@ -236,7 +239,7 @@
         methods: {
             logout() {
                 localStorage.removeItem("userInfo");
-                window.location.href = "/#/?type=0"
+                window.location.href = "/#/"
             },
             ok() {
                 var th = this;
@@ -288,15 +291,14 @@
         },
         created() {
             let userInfo = localStorage.getItem("userInfo");
-            /*if(userInfo){
+            console.log(userInfo)
+            if(userInfo){
                 userInfo = JSON.parse(userInfo);
-                if(userInfo.uType != 0){
-                    window.location.href = "/#/?type=0"
-                }
             }else{
-                window.location.href = "/#/?type=0"
+                window.location.href = "/#/";
             }
-            this.mName = userInfo.uName;*/
+            this.mName = userInfo.name;
+            this.obj = userInfo;
             var data = new Date();
             this.years = data.getFullYear() + "年" + (data.getMonth() + 1) + "月" + data.getDate() + "日";
         }

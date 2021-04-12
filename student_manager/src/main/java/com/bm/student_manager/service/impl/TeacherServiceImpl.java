@@ -5,6 +5,7 @@ import com.bm.student_manager.entity.Teacher;
 import com.bm.student_manager.service.TeacherService;
 import com.bm.student_manager.util.Result;
 import com.github.pagehelper.PageHelper;
+import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +69,16 @@ public class TeacherServiceImpl implements TeacherService {
         } else {
             return new Result(200, "ok", list, teacherMapper.countByTeacher(teacherName,teacherUUID));
         }
+    }
+
+    @Override
+    public Result login(String password, String teacherId) {
+        Teacher teacher = teacherMapper.login(password,teacherId);
+        if(teacher == null){
+            return new Result().error("账号密码错误！");
+        }
+
+        return new Result(200, "ok", teacher);
     }
 
     /**

@@ -101,14 +101,19 @@ public class TeacherController {
             return new Result().error(ex.getMessage());
         }
     }
-    
-    
-     /* 查询所有数据分页
+
+
+    /* 查询所有数据分页
      *
      * @return
      */
     @GetMapping("/selectPage")
-    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,String teacherName,String teacherUUID) {
-        return teacherService.selectByTeacher(page,limit,teacherName,teacherUUID);
+    public Result selectPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, String teacherName, String teacherUUID) {
+        return teacherService.selectByTeacher(page, limit, teacherName, teacherUUID);
+    }
+
+    @GetMapping("/login")
+    public Result login(String password, String teacherId) {
+        return teacherService.login(password, teacherId);
     }
 }

@@ -43,6 +43,7 @@ public class TeacherCheckController {
         try {
             return teacherCheckService.insert(teacherCheck) > 0 ? new Result().successMessage("添加成功！") : Result.error("添加失败！");
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new Result().error(ex.getMessage());
         }
 

@@ -112,4 +112,10 @@
       </if>
     </where>
   </select>
+  <select id="login" resultMap="BaseResultMap" >
+      select teacher_id, NAME, sex, birthday, POSITION, phone, PASSWORD, political, tid_card,
+    education, home, state, remarks
+    from teacher where teacher_id = #{teacherId} and PASSWORD = #{password}
+
+  </select>
 </mapper>

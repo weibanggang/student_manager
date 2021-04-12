@@ -24,7 +24,7 @@
 							课程/时间
 						</Col>
 						<Col span="20">
-							<Select v-model="courseName" placeholder="课程/时间模糊查询" filterable @on-change="changePage($event)">
+							<Select v-model="uuid" placeholder="课程/时间模糊查询" filterable @on-change="changePage($event)">
 								<Option v-for="item in courseNameList" :value="item.uuid" :key="item.uuid">{{ item.courseName + "（" + item.startTime+ " - " + item.endTime+ "）"}}</Option>
 							</Select>
 						</Col>
@@ -88,29 +88,28 @@
 						align: 'center',
 						width: 400,
 						render: (h, params) => {
-							console.log(params.row)
 							return h('div', [
 								h('Radio', {
 									props: {
-										label: "正常",
-										value:params.row.status === "正常"
+										label: "已签到",
+										value:params.row.status === "已签到"
 									},
 									on: {
 										'on-change': () => {
-											this.data6[params.index].status = "正常";
-											params.row.status = "正常"
+											this.data6[params.index].status = "已签到";
+											params.row.status = "已签到"
 										}
 									}
 								},"正常"),
 								h('Radio', {
 									props: {
-										label: "缺勤",
-										value:params.row.status === "缺勤"
+										label: "未签到",
+										value:params.row.status === "未签到"
 									},
 									on: {
 										'on-change': () => {
-											this.data6[params.index].status = "缺勤";
-											params.row.status = "缺勤"
+											this.data6[params.index].status = "未签到";
+											params.row.status = "未签到"
 										}
 									}
 								},"缺勤"),
@@ -119,51 +118,78 @@
 						}
 				],
 				data6: [],
+				obj:"",
 				courseName: "",
+				courseId: "",
+				uuid:"",
 				studentId: "",
 				classaList: [],
 				studentCheck:[],
-				teacherCheck:[],
+				teacherCheck:{},
 				courseNameList:[],
+				courseNameSETime:"",
 			}
 		},
 		methods: {
 			//单击添加
 			add() {
-				console.log(this.data6);
-			},
-			//导出数据
-			exportData() {
-				this.$refs.table.exportCsv({
-					filename: '学生信息'
-				});
-			},
-			changePage(page) {
+				let ok = 0;
+				this.data6.forEach((res)=>{
+					if(res.status == "正常"){
+						ok++;
+					}
+				})
 
-				this.loading = true;
-				if (!this.name) {
-					this.name = '';
+				this.teacherCheck={
+					teacherId:"1617883891698",
+					courseId:this.obj.courseId,
+					courseNameSETime:this.courseNameSETime,
+					numberOfPeople:this.data6.length,
+					numberOfReal:ok,
+					numberOfAbsence:this.data6.length - ok
 				}
-				if (!this.student_name) {
-					this.student_name = '';
-				}
-				const th = this;
-				axios.get('/student_manager/student/selectPage', {
-					params: {
-						page: page,
-						name: th.name,
-						studentId: th.studentId
+				let th =this;
+				this.data6.forEach((d)=>{
+					axios.post('/student_manager/studentCheck/insert' , d, {
+						headers: {
+							"Content-Type": "application/json;charset=utf-8"
+						}
+					}).then(function (res) {
+						if (res.data.code === 200) {
+							console.log(ok)
+						}
+					})
+				})
+				axios.post('/student_manager/teacherCheck/insert' , this.teacherCheck, {
+					headers: {
+						"Content-Type": "application/json;charset=utf-8"
 					}
 				}).then(function (res) {
-					th.data6 = [];
-					res.data.data.forEach((params)=>{
-						let studentCheck = {
-							studentId:params.studentId,
-							studentName:params.name,
-							status:"正常",
-						};
-						th.data6.push(studentCheck);
-					})
+					if (res.data.code === 200) {
+						th.$Message.success("提交成功！")
+						setTimeout(()=>{
+							window.location.href = "/#/manager/";
+						},500)
+					}
+				})
+			},
+			changePage(uuid) {
+				this.courseNameList.forEach((item)=>{
+					if(item.uuid === uuid){
+						this.obj = item;
+						this.courseNameSETime = item.courseName + "（" + item.startTime+ " - " + item.endTime+ "）";
+						this.courseId = item.courseId;
+					}
+				})
+				this.loading = true;
+				let th = this;
+				axios.get('/student_manager/studentCheck/selectByClassa', {
+					params: {
+						id: this.courseId,
+						courseNameSETime: this.courseNameSETime
+					}
+				}).then(function (res) {
+					th.data6 = res.data.data;
 				})
 				th.loading = false;
 			},
@@ -172,7 +198,7 @@
 			axios.get('/student_manager/classScheduleCard/selectPage', {
 				params: {
 					limit:1000,
-					studentId: "1617842546979"
+					teacherId: "1617883891698"
 				}
 			}).then((res) => {
 				this.courseNameList = res.data.data;

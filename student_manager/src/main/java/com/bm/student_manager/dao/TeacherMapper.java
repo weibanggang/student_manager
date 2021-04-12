@@ -39,6 +39,8 @@ public interface TeacherMapper {
      */
     List<Teacher> selectAll();
     List<Teacher> selectByTeacher(@Param("teacherName") String teacherName,@Param("teacherUUID")  String teacherUUID);
+
+    Teacher login(@Param("password") String password,@Param("teacherId")  String teacherId);
     /**
      * 根据主键全部修改操作
      *

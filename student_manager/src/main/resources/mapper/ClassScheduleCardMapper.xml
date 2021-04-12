@@ -98,7 +98,7 @@
           and course_type like concat('%',#{courseType},'%')
         </if>
         <if test="teacherId != null and teacherId != ''">
-          and teacher_id = teacherId
+          and teacher_id = #{teacherId}
         </if>
       </where>
     </select>
@@ -120,7 +120,7 @@
         and course_type like concat('%',#{courseType},'%')
       </if>
       <if test="teacherId != null and teacherId != ''">
-        and teacher_id = teacherId
+        and teacher_id = #{teacherId}
       </if>
     </where>
   </select>

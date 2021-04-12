@@ -28,7 +28,7 @@
             <Form style="width: 350px;margin: auto;" :model="user">
                 <div >
                     <FormItem>
-                        <Input type="text" v-model="user.phone" :maxlength="11" placeholder="用户名">
+                        <Input type="text" v-model="user.teacherId" :maxlength="15" placeholder="工号">
                             <Icon type="md-phone-portrait" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
@@ -53,29 +53,16 @@
             return {
                 user: {
                     password: '',
-                    phone: '',
-                    type: '',
+                    teacherId: ''
                 },
                 login: false,
                 code: 1024,
-                modal14: false,
-                modal14loading: false,
-                users: {
-                    uId: "",
-                    uName: '',
-                    uNames: '',
-                    uPwd: '',
-                    uTel: '',
-                    uType: '1',
-                    uStatus: "正常",
-                },
             }
         },
         methods: {
             handleSubmit() {
-                window.location.href = "/#/manager/";
-                /*if (this.user.phone.trim().length == 0) {
-                    this.$Message.warning('请输入用户名!');
+                if (this.user.teacherId.trim().length == 0) {
+                    this.$Message.warning('请输入工号!');
                     return false;
                 }
                 if (this.user.password.trim().length == 0) {
@@ -83,17 +70,17 @@
                     return false;
                 }
                 let th = this;
-                axios.get('/florist/users/selectByLogin', {
+                axios.get('/student_manager/teacher/login', {
                     params: th.user
                 }).then((res) => {
                     if (res.data.code === 200) {
-                        localStorage.setItem("userInfo", res.data.data)
+                        localStorage.setItem("userInfo", JSON.stringify(res.data.data))
                         this.$Message.success('登录成功!');
                         window.location.href = "/#/manager/";
                     } else {
                         this.$Message.warning(res.data.message);
                     }
-                });*/
+                });
 
             }
         },

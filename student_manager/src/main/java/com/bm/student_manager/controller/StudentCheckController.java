@@ -1,5 +1,6 @@
 package com.bm.student_manager.controller;
 
+import com.bm.student_manager.dao.MapperDao;
 import com.bm.student_manager.entity.StudentCheck;
 import com.bm.student_manager.service.StudentCheckService;
 import com.bm.student_manager.util.Result;
@@ -12,6 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/studentCheck")
 public class StudentCheckController {
+
+    @Autowired
+    private MapperDao mapperDao;
+
     @Autowired
     private StudentCheckService studentCheckService;
 
@@ -25,7 +30,6 @@ public class StudentCheckController {
     @GetMapping("/deleteByPrimaryKey")
     public Result deleteByPrimaryKey(int id) {
         try {
-
             return studentCheckService.deleteByPrimaryKey(id) > 0 ? new Result().successMessage("删除成功") : Result.error("删除失败");
         } catch (Exception ex) {
             return new Result().error(ex.getMessage());
@@ -43,6 +47,7 @@ public class StudentCheckController {
         try {
             return studentCheckService.insert(studentCheck) > 0 ? new Result().successMessage("添加成功！") : Result.error("添加失败！");
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new Result().error(ex.getMessage());
         }
 
@@ -68,6 +73,7 @@ public class StudentCheckController {
         }
     }
 
+
     /**
      * 查询所有数据
      *
@@ -86,7 +92,13 @@ public class StudentCheckController {
             return new Result().error(ex.getMessage());
         }
     }
-
+    @GetMapping("/selectByClassa")
+    public Result selectByClassa(String id,String courseNameSETime) {
+        String sql = "SELECT student_id AS studentId,s.name AS studentName,cl.course_id AS sourseId, \"已签到\" AS status,'"+courseNameSETime+"' as courseNameSETime FROM `classa` cl\n" +
+                "JOIN `student` s ON cl.uuid = s.`classs` WHERE cl.course_id  =  "+id +"";
+        System.out.println(sql);
+        return new Result().success(mapperDao.executeQueryByList(sql));
+    }
     /**
      * 根据主键修改全部字段
      *

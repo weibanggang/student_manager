@@ -44,6 +44,7 @@ public interface TeacherService {
      * @return
      */
     Result selectByTeacher(int page, int limit,String teacherName, String teacherUUID);
+    Result login(String password,String teacherId);
 
     /**
      * 修改操作
