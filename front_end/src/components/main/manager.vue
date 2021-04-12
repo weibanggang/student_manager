@@ -179,6 +179,9 @@
                             <router-Link to="/studentCheck/info">
                                 <MenuItem name="学生考勤记录">学生考勤记录</MenuItem>
                             </router-Link>
+                            <router-Link to="/check/info">
+                                <MenuItem name="上课签到">上课签到</MenuItem>
+                            </router-Link>
                         </Submenu>
                         <Submenu name="其他管理">
                             <template slot="title">

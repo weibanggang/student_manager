@@ -38,8 +38,8 @@ public interface ClassScheduleCardMapper {
      * @return
      */
     List<ClassScheduleCard> selectAll();
-    List<ClassScheduleCard> selectPage(@Param("week") String week,@Param("courseName")  String courseName,@Param("courseType")   String courseType,@Param("teacherName")   String teacherName);
-    int countPage(@Param("week") String week,@Param("courseName")  String courseName,@Param("courseType")   String courseType,@Param("teacherName")   String teacherName);
+    List<ClassScheduleCard> selectPage(@Param("week") String week,@Param("courseName")  String courseName,@Param("courseType")   String courseType,@Param("teacherName")   String teacherName,@Param("teacherId") String teacherId);
+    int countPage(@Param("week") String week,@Param("courseName")  String courseName,@Param("courseType")   String courseType,@Param("teacherName")   String teacherName,@Param("teacherId") String teacherId);
 
     /**
      * 根据主键全部修改操作

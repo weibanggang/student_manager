@@ -97,6 +97,9 @@
         <if test="courseType != null and courseType != ''">
           and course_type like concat('%',#{courseType},'%')
         </if>
+        <if test="teacherId != null and teacherId != ''">
+          and teacher_id = teacherId
+        </if>
       </where>
     </select>
   <select id="selectPage" resultMap="BaseResultMap">
@@ -115,6 +118,9 @@
       </if>
       <if test="courseType != null and courseType != ''">
         and course_type like concat('%',#{courseType},'%')
+      </if>
+      <if test="teacherId != null and teacherId != ''">
+        and teacher_id = teacherId
       </if>
     </where>
   </select>

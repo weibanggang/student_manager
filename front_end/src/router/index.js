@@ -51,6 +51,10 @@ const routes = [{
             name: 'studentCheckInfo',
             component: () => import('../components/manager/studentCheck/info.vue'),
         },{
+            path: '/check/info',
+            name: 'checkInfo',
+            component: () => import('../components/manager/check/info.vue'),
+        },{
             path: '/manager/info',
             name: 'managerInfo',
             component: () => import('../components/manager/manager/info.vue'),

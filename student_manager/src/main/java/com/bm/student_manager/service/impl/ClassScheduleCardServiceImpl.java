@@ -58,13 +58,13 @@ public class ClassScheduleCardServiceImpl implements ClassScheduleCardService {
     }
 
     @Override
-    public List<ClassScheduleCard> selectPage(String week, String courseName, String courseType, String teacherName) {
-        return classScheduleCardMapper.selectPage(week,courseName,courseType,teacherName);
+    public List<ClassScheduleCard> selectPage(String week, String courseName, String courseType, String teacherName, String teacherId) {
+        return classScheduleCardMapper.selectPage(week,courseName,courseType,teacherName,teacherId);
     }
 
     @Override
-    public int countPage(String week, String courseName, String courseType, String teacherName) {
-        return classScheduleCardMapper.countPage(week,courseName,courseType,teacherName);
+    public int countPage(String week, String courseName, String courseType, String teacherName, String teacherId) {
+        return classScheduleCardMapper.countPage(week,courseName,courseType,teacherName,teacherId);
     }
 
     /**
