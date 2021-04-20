@@ -40,7 +40,7 @@
       remarks)
     values (#{teacherId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{political,jdbcType=VARCHAR}, #{tidCard,jdbcType=VARCHAR}, 
+      '686868', #{political,jdbcType=VARCHAR}, #{tidCard,jdbcType=VARCHAR},
       #{education,jdbcType=VARCHAR}, #{home,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=LONGVARCHAR})
   </insert>

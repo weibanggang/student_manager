@@ -76,7 +76,7 @@
 
                             <Dropdown>
                                 欢迎您！{{mName}}
-                                <Icon type="ios-arrow-down"></Icon>
+                                <!--<Icon type="ios-arrow-down"></Icon>-->
                                 <!--<DropdownMenu slot="list">
                                     <DropdownItem  @click.native="updatepassword">修改密码</DropdownItem>
                                 </DropdownMenu>-->
